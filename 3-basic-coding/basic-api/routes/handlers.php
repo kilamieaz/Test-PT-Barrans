@@ -9,9 +9,11 @@ Route::middleware(['auth:airlock'])->group(function () {
     });
 
     Route::get('products', 'Product\IndexProduct')->name('products.index');
-    Route::post('products', 'Product\StoreProduct')->name('products.store');
-    Route::put('products/{product}', 'Product\UpdateProduct')->name('products.update');
-    Route::delete('products/{product}', 'Product\DestroyProduct')->name('products.destroy');
+    Route::middleware(['roles:merchant'])->group(function () {
+        Route::post('products', 'Product\StoreProduct')->name('products.store');
+        Route::put('products/{product}', 'Product\UpdateProduct')->name('products.update');
+        Route::delete('products/{product}', 'Product\DestroyProduct')->name('products.destroy');
+    });
 });
 
 Route::post('login', 'Auth\LoginHandler')->name('auth.login');

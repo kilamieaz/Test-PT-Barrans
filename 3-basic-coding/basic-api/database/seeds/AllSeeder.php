@@ -13,21 +13,22 @@ class AllSeeder extends Seeder
     public function run()
     {
         //data user merchant
-        $userAdmin = new User();
-        $userAdmin->name = 'Merchant';
-        $userAdmin->email = 'im.merchant@gmail.com';
-        $userAdmin->email_verified_at = now();
-        $userAdmin->remember_token = Str::random(10);
-        $userAdmin->password = bcrypt('password');
-        $userAdmin->save();
+        $merchant = new User();
+        $merchant->name = 'Merchant';
+        $merchant->email = 'im.merchant@gmail.com';
+        $merchant->role = 'merchant';
+        $merchant->email_verified_at = now();
+        $merchant->remember_token = Str::random(10);
+        $merchant->password = bcrypt('password');
+        $merchant->save();
 
         //data user customer
-        $userAdmin = new User();
-        $userAdmin->name = 'Customer';
-        $userAdmin->email = 'im.customer@gmail.com';
-        $userAdmin->email_verified_at = now();
-        $userAdmin->remember_token = Str::random(10);
-        $userAdmin->password = bcrypt('password');
-        $userAdmin->save();
+        $customer = new User();
+        $customer->name = 'Customer';
+        $customer->email = 'im.customer@gmail.com';
+        $customer->email_verified_at = now();
+        $customer->remember_token = Str::random(10);
+        $customer->password = bcrypt('password');
+        $customer->save();
     }
 }
