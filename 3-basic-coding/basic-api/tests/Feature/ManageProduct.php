@@ -27,11 +27,13 @@ class ManageProduct extends TestCase
     }
 
     /** @test */
-    public function a_user_can_create_a_product()
+    public function a_merchant_can_create_a_product()
     {
         // $this->withoutExceptionHandling();
-
-        $this->signIn();
+        $user = factory('App\User')->create([
+            'role' => 'merchant'
+        ]);
+        $this->signIn($user);
 
         $data = factory('App\Product')->raw();
         $response = $this->postJson('products', $data)
@@ -42,9 +44,12 @@ class ManageProduct extends TestCase
     }
 
     /** @test */
-    public function a_user_can_update_a_product()
+    public function a_merchant_can_update_a_product()
     {
-        $this->signIn();
+        $user = factory('App\User')->create([
+            'role' => 'merchant'
+        ]);
+        $this->signIn($user);
 
         $attributes = ['name' => 'product changed', 'price' => 1000, 'description' => 'changed'];
 
@@ -60,9 +65,12 @@ class ManageProduct extends TestCase
     }
 
     /** @test */
-    public function a_user_can_delete_a_product()
+    public function a_merchant_can_delete_a_product()
     {
-        $this->signIn();
+        $user = factory('App\User')->create([
+            'role' => 'merchant'
+        ]);
+        $this->signIn($user);
 
         $product = factory('App\Product')->create([
             'name' => 'Product 1',

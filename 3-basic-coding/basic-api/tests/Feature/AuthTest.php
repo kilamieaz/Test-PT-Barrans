@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Laravel\Airlock\Airlock;
 
 class AuthTest extends TestCase
 {
@@ -20,15 +19,12 @@ class AuthTest extends TestCase
             'password' => 'password',
         ], ['Accept' => 'application/json'])
         ->assertStatus(200)
-        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'created_at', 'updated_at'], 'accessToken']);
+        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at'], 'accessToken']);
     }
 
     public function testLogout()
     {
-        Airlock::actingAs(
-            factory('App\User')->create(),
-            ['*']
-        );
+        $this->signIn();
         $response = $this->json('POST', 'logout');
         $response->assertStatus(200)
         ->assertJsonStructure(['message']);
@@ -39,6 +35,6 @@ class AuthTest extends TestCase
         $data = factory('App\User')->raw();
         $this->json('POST', 'register', $data, ['Accept' => 'application/json'])
         ->assertStatus(201)
-        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'created_at', 'updated_at']]);
+        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at']]);
     }
 }
