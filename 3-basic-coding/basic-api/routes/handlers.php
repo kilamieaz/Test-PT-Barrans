@@ -14,6 +14,8 @@ Route::middleware(['auth:airlock'])->group(function () {
         Route::put('products/{product}', 'Product\UpdateProduct')->name('products.update');
         Route::delete('products/{product}', 'Product\DestroyProduct')->name('products.destroy');
     });
+
+    Route::post('transactions', 'Transaction\StoreTransaction')->name('transactions.store');
 });
 
 Route::post('login', 'Auth\LoginHandler')->name('auth.login');
