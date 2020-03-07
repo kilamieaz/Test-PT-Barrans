@@ -10,6 +10,7 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    /** @test */
     public function testLogin()
     {
         // $this->withoutExceptionHandling();
@@ -19,9 +20,10 @@ class AuthTest extends TestCase
             'password' => 'password',
         ], ['Accept' => 'application/json'])
         ->assertStatus(200)
-        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at'], 'accessToken']);
+        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at', 'accessToken']]);
     }
 
+    /** @test */
     public function testLogout()
     {
         $this->signIn();
@@ -30,11 +32,12 @@ class AuthTest extends TestCase
         ->assertJsonStructure(['message']);
     }
 
+    /** @test */
     public function testRegister()
     {
         $data = factory('App\User')->raw();
         $this->json('POST', 'register', $data, ['Accept' => 'application/json'])
         ->assertStatus(201)
-        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at']]);
+        ->assertJsonStructure(['data' => ['id', 'name', 'email', 'role', 'point', 'created_at', 'updated_at', 'accessToken']]);
     }
 }

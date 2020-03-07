@@ -18,6 +18,6 @@ class RegisterHandler
         $user = CreateUser::dispatchNow($request->all());
         $token = $user->createToken('auth:login');
         return (new UserResource($user))
-        ->additional(['accessToken' => $token->plainTextToken]);
+        ->additional(['data' => ['accessToken' => $token->plainTextToken]]);
     }
 }
