@@ -19,8 +19,9 @@ class UserResource extends JsonResource
             'name' => (string) $this->name,
             'email' => (string) $this->email,
             // 'password' => (string) $this->password,
-            'role' => (string) $this->role, 
+            'role' => (string) $this->role,
             'point' => (int) $this->point,
+            'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -4,9 +4,9 @@ use Illuminate\Http\Request;
 
 Route::middleware(['auth:airlock'])->group(function () {
     Route::post('logout', 'Auth\LogoutHandler')->name('auth.logout');
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Route::get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
 
     Route::get('products', 'Product\IndexProduct')->name('products.index');
     Route::middleware(['roles:merchant'])->group(function () {
@@ -16,6 +16,8 @@ Route::middleware(['auth:airlock'])->group(function () {
     });
 
     Route::post('transactions', 'Transaction\StoreTransaction')->name('transactions.store');
+
+    Route::get('users', 'User\IndexUser')->name('users.index');
 });
 
 Route::post('login', 'Auth\LoginHandler')->name('auth.login');
