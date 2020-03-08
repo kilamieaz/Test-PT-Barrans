@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class DestroyProduct
 {
-    protected $product = null;
-
     public function __invoke(Request $request, Product $product)
     {
         $product->delete();

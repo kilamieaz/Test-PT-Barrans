@@ -3,14 +3,13 @@
 namespace App\Http\Handlers\Product;
 
 use App\Product;
-use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use App\Http\Requests\ProductRequest;
 
 class UpdateProduct
 {
-    public function __invoke(Request $request, Product $product)
+    public function __invoke(ProductRequest $formRequest, Product $product)
     {
-        $product->update($request->only($product->fillable));
-        return new ProductResource($product);
+        return new ProductResource($formRequest->process());
     }
 }
