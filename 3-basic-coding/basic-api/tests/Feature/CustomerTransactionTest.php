@@ -19,7 +19,6 @@ class CustomerTransactionTest extends TestCase
         $response = $this->postJson('transactions', $attributes);
         $response->assertStatus(201)
         ->assertJsonStructure(['data' => ['user_id', 'product_id', 'quantity', 'created_at', 'updated_at']]);
-        $this->assertEquals(1, count($response->json()));
         $this->assertDatabaseHas('transactions', $attributes);
     }
 }

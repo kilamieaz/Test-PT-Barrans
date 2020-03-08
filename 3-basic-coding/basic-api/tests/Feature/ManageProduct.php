@@ -21,8 +21,6 @@ class ManageProduct extends TestCase
         ]);
         $response = $this->getJson('products')->assertStatus(200);
 
-        $this->assertEquals(1, count($response->json()));
-
         $this->assertEquals('Product 1', $response->json()['data'][0]['name']);
     }
 
@@ -37,10 +35,8 @@ class ManageProduct extends TestCase
 
         $data = factory('App\Product')->raw();
         $response = $this->postJson('products', $data)
-        ->assertStatus(201)
+        ->assertStatus(200)
         ->assertJsonStructure(['data' => ['id', 'name', 'description', 'price', 'created_at', 'updated_at']]);
-
-        $this->assertEquals(1, count($response->json()));
     }
 
     /** @test */
