@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Repositories\ProductRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class StoreProductRequest extends FormRequest
 {
     protected $product = null;
 
@@ -33,30 +33,13 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3',
-            'price' => 'required|integer',
+            'price' => 'required|integer|numeric',
             'description' => 'required|string|min:3'
         ];
     }
 
-    public function product()
-    {
-        //route model binding
-        return $this->route('product');
-    }
-
     public function process()
     {
-        switch ($this->method()) {
-            case 'POST':
-            {
-                return tap($this->product->create($this->validated()));
-            }
-            case 'PUT':
-            {
-                return tap($this->product())->update($this->validated());
-            }
-            case 'PATCH':
-            default:break;
-        }
+        return tap($this->product->create($this->validated()));
     }
 }
