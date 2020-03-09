@@ -1,24 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
-
-Route::middleware(['auth:airlock'])->group(function () {
-    Route::post('logout', 'Auth\LogoutHandler')->name('auth.logout');
-    // Route::get('/user', function (Request $request) {
-    //     return $request->user();
-    // });
-
-    Route::get('products', 'Product\IndexProduct')->name('products.index');
-    Route::middleware(['roles:merchant'])->group(function () {
-        Route::post('products', 'Product\StoreProduct')->name('products.store');
-        Route::put('products/{product}', 'Product\UpdateProduct')->name('products.update');
-        Route::delete('products/{product}', 'Product\DestroyProduct')->name('products.destroy');
-    });
-
-    Route::post('transactions', 'Transaction\StoreTransaction')->name('transactions.store');
-
-    Route::get('users', 'User\IndexUser')->name('users.index');
+Route::namespace('Auth')->name('auth.')->group(function () {
+    Route::post('login', LoginHandler::class)->name('login');
+    Route::post('register', RegisterHandler::class)->name('register');
+    Route::post('logout', LogoutHandler::class)->name('logout')->middleware(['auth:airlock']);
 });
 
-Route::post('login', 'Auth\LoginHandler')->name('auth.login');
-Route::post('register', 'Auth\RegisterHandler')->name('auth.register');
+Route::middleware(['auth:airlock'])->group(function () {
+    Route::namespace('Product')->name('products.')->group(function () {
+        Route::get('products', IndexProduct::class)->name('index');
+        Route::middleware(['roles:merchant'])->group(function () {
+            Route::post('products', StoreProduct::class)->name('store');
+            Route::put('products/{product}', UpdateProduct::class)->name('update');
+            Route::delete('products/{product}', DestroyProduct::class)->name('destroy');
+        });
+    });
+
+    Route::namespace('Transaction')->name('transactions.')->group(function () {
+        Route::post('transactions', StoreTransaction::class)->name('store');
+    });
+
+    Route::namespace('User')->name('users.')->group(function () {
+        Route::get('users', IndexUser::class)->name('index');
+    });
+});
