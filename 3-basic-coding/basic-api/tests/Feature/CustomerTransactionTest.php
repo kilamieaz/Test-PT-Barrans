@@ -17,7 +17,7 @@ class CustomerTransactionTest extends TestCase
         $product = factory('App\Product')->create();
         $attributes = ['user_id' => $user->id, 'product_id' => $product->id, 'quantity' => 1];
         $response = $this->postJson('transactions', $attributes);
-        $response->assertStatus(201)
+        $response->assertStatus(200)
         ->assertJsonStructure(['data' => ['user_id', 'product_id', 'quantity', 'created_at', 'updated_at']]);
         $this->assertDatabaseHas('transactions', $attributes);
     }

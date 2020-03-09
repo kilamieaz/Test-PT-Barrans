@@ -3,15 +3,20 @@
 namespace App\Http\Handlers\Auth;
 
 use App\Jobs\AuthLogin;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\StoreLoginRequest;
 
 class LoginHandler
 {
-    public function __invoke(Request $request)
+    public function __invoke(StoreLoginRequest $request)
     {
-        $user = AuthLogin::dispatchNow($request->all());
-        $token = $user->createToken('auth:login');
+        $response = DB::transaction(function () use ($request) {
+            $user = AuthLogin::dispatchNow($request->validated());
+            $token = $user->createToken('auth:login');
+            return [$user, $token];
+        });
+        list($user, $token) = $response;
         return (new UserResource($user))
         ->additional(['data' => ['accessToken' => $token->plainTextToken]]);
     }

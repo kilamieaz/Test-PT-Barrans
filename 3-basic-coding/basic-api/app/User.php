@@ -5,6 +5,7 @@ namespace App;
 use Laravel\Airlock\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 
 class User extends Authenticatable
 {
@@ -40,5 +41,10 @@ class User extends Authenticatable
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function pointIncrement()
+    {
+        $this->increment('point', Arr::random([20, 40]));
     }
 }

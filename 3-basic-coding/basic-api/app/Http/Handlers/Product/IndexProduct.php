@@ -17,7 +17,6 @@ class IndexProduct
 
     public function __invoke(Request $request)
     {
-        $product = $this->product->all();
-        return ProductResource::collection($product);
+        return ProductResource::collection($this->product->all());
     }
 }
